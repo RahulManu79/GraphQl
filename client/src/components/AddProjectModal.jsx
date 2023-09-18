@@ -45,6 +45,7 @@ export default function AddProjectModal() {
 
 
         addProject(name, description, clientId, status).then((res)=>{
+
             return toast("Project Added SussesFully :)", {
                 position: "top-right",
                 autoClose: 5000,

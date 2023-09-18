@@ -36,7 +36,7 @@ const DELETE_PROJECT = gql`
 `;
 
 const UPDATE_PROJECT = gql`
-  mutation UpdateProject(
+  mutation updateProject(
     $id: ID!
     $name: String!
     $description: String!

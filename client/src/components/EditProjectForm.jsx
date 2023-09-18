@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
-import { GET_PROJECT } from "./queries/projectQueries";
+import { GET_PROJECT, GET_PROJECTS } from "./queries/projectQueries";
 import { UPDATE_PROJECT } from "./mutaions/ProjectMutation";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function EditProjectForm({ project }) {
     const [name, setName] = useState(project.name);
     const [description, setDescription] = useState(project.description);
@@ -28,10 +29,13 @@ export default function EditProjectForm({ project }) {
         e.preventDefault();
 
         if (!name || !description || !status) {
-            return alert("Please fill out all fields");
+            return toast.warning("Please fill out all fields");
         }
 
-        updateProject(name, description, status);
+
+        updateProject(name, description, status).then((res) => {
+            toast.success("Project updated Successfully")
+        })
     };
 
     return (
@@ -57,6 +61,7 @@ export default function EditProjectForm({ project }) {
                         onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
                 </div>
+                <ToastContainer />
                 <div className="mb-3">
                     <label className="form-label">Status</label>
                     <select
@@ -66,7 +71,7 @@ export default function EditProjectForm({ project }) {
                         onChange={(e) => setStatus(e.target.value)}
                     >
                         <option value="new">Not Started</option>
-                        <option value="progress">In Progress</option>
+                        <option value="progres">In Progress</option>
                         <option value="completed">Completed</option>
                     </select>
                 </div>

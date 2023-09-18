@@ -2,7 +2,9 @@ import { useMutation } from "@apollo/client"
 import {FaTrash} from "react-icons/fa"
 import { DELETE_CLIENT } from "./mutaions/clientMutations"
 import { GET_CLIENTS } from "./queries/clientQueries"
+import { ToastContainer, toast } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 export default function ClientRow({client}) {
   const [deleteClient] = useMutation(DELETE_CLIENT,{
     variables: {id:client.id},
@@ -12,6 +14,9 @@ export default function ClientRow({client}) {
         query : GET_CLIENTS ,
         data:{ clients:[...clients].filter((c)=> c.id !== client.id)}
       })
+
+      toast.success("Client deleted succesfully")
+      
     }
   })
 
@@ -26,6 +31,7 @@ export default function ClientRow({client}) {
                   <FaTrash/>
             </button>
         </td>
+      <ToastContainer/>
     </tr>
   )
 }

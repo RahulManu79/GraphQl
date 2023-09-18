@@ -27,7 +27,17 @@ export default function AddClientModel() {
         e.preventDefault()
 
         if (name === '' || email === '' || phone === '') {
-            return alert('Please fill in all fields');
+            return toast('Please fill in all fields', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                type: 'warning',
+                progress: undefined,
+                theme: "light",
+            });
         }
 
         addClient(name, email, phone).then((res) => {
