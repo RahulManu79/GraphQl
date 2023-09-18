@@ -3,12 +3,14 @@ import { useState } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { ADD_CLIENT } from './mutaions/clientMutations'
 import { GET_CLIENTS } from './queries/clientQueries'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddClientModel() {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [phone, setPhone] = useState('')
+    // const notify = () => toast("Wow so easy !");
 
     const [addClient] = useMutation(ADD_CLIENT, {
         variables: { name, email, phone },
@@ -28,7 +30,19 @@ export default function AddClientModel() {
             return alert('Please fill in all fields');
         }
 
-        addClient(name, email, phone)
+        addClient(name, email, phone).then((res) => {
+            return toast("Client Added SussesFully :)", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                type: 'success',
+                progress: undefined,
+                theme: "light",
+            })
+        })
 
         setEmail('')
         setName('')
@@ -42,6 +56,7 @@ export default function AddClientModel() {
                     <div>Add Client</div>
                 </div>
             </button>
+            <ToastContainer/>
 
             <div className="modal fade" id="addClientModel" aria-labelledby="addClientModelLabel" aria-hidden="true">
                 <div className="modal-dialog">

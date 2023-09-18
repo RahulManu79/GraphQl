@@ -4,7 +4,8 @@ import { useMutation, useQuery } from '@apollo/client';
 import { ADD_PROJECT } from './mutaions/ProjectMutation';
 import { GET_PROJECTS } from './queries/projectQueries';
 import { GET_CLIENTS } from './queries/clientQueries';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 export default function AddProjectModal() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -29,10 +30,33 @@ export default function AddProjectModal() {
         e.preventDefault();
 
         if (name === '' || description === '' || status === '') {
-            return alert('Please fill in all fields');
+            return toast('Please fill in all fields', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                type: 'warning',
+                progress: undefined,
+                theme: "light",
+            });
         }
 
-        addProject(name, description, clientId, status);
+
+        addProject(name, description, clientId, status).then((res)=>{
+            return toast("Project Added SussesFully :)", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                type: 'success',
+                progress: undefined,
+                theme: "light",
+            })
+        })
 
         setName('');
         setDescription('');
@@ -40,8 +64,23 @@ export default function AddProjectModal() {
         setClientId('');
     };
 
+    let SomthingWentWrong = () => {
+        toast("Something Went wrong!!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            type: 'error',
+            progress: undefined,
+            theme: "light",
+        })
+    }
+
+
     if (loading) return null;
-    if (error) return 'Something Went Wrong';
+    if (error) return SomthingWentWrong;
 
     return (
         <>
@@ -58,7 +97,7 @@ export default function AddProjectModal() {
                             <div>New Project</div>
                         </div>
                     </button>
-
+                    <ToastContainer/>
                     <div
                         className='modal fade'
                         id='addProjectModal'
